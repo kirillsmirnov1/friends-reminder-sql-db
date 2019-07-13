@@ -69,7 +69,7 @@ public class Main {
                     addPerson();
                     break;
                 case "2" :
-                    changePersonName();
+                    renamePerson();
                     break;
                 default:
                     System.out.println("Wrong input, mate");
@@ -106,7 +106,7 @@ public class Main {
         return false;
     }
 
-    private static void changePersonName() {
+    private static void renamePerson() {
         System.out.print("Who do you wish to rename? ");
         String oldName = inScan.nextLine();
         if(personExists(oldName)){
