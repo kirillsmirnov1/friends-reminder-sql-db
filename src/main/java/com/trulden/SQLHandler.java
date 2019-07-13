@@ -1,6 +1,7 @@
 package com.trulden;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import static com.trulden.TableName.PERSONS;
 
@@ -24,12 +25,43 @@ class SQLHandler {
         createTable(createPersons);
     }
 
+    String[] listTable(TableName tableName){
+        ArrayList<String> result = new ArrayList<>();
+        String selectStatementStr;
+
+        switch (tableName){
+            case PERSONS:
+                selectStatementStr = "SELECT name FROM " + PERSONS.toString() + ";";
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+
+        try(Connection conn = DriverManager.getConnection(databaseURL);
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(selectStatementStr)){
+
+            while(rs.next()){
+                switch (tableName){
+                    case PERSONS:
+                        result.add(" " + rs.getString("name"));
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return result.toArray(new String[0]);
+    }
+
     private void createTable(String sqlCreateStatement) {
         try (Connection conn = DriverManager.getConnection(databaseURL);
              Statement stmt = conn.createStatement()) {
             // create a new table
             stmt.execute(sqlCreateStatement);
-            System.out.println("TableName created");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

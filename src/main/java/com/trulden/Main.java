@@ -3,6 +3,8 @@ package com.trulden;
 import java.sql.*;
 import java.util.Scanner;
 
+import static com.trulden.TableName.PERSONS;
+
 public class Main {
 
     private static Scanner inScan = new Scanner(System.in);
@@ -35,32 +37,14 @@ public class Main {
         }
     }
 
-    private static void listPersons() {
-        String getNames = "SELECT name FROM persons";
-
-        System.out.println("\nPersons: ");
-
-        try(Connection conn = DriverManager.getConnection(sqlHandler.getDatabaseURL());
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(getNames)){
-
-            while(rs.next()){
-                System.out.println(" " + rs.getString("name"));
-            }
-
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
     private static void personsCycle() {
         boolean stayInPersonsCycle = true;
         while(stayInPersonsCycle){
-            listPersons();
+            printTable(PERSONS);
 
             System.out.println("\nEnter" +
                 "\n 0 to go back" +
-                "\nPersons" +
+                "\n" + PERSONS.toString() +
                 "\n 1 : add; 2 : rename; 3 : remove");
 
             switch (inScan.nextLine()){
@@ -80,6 +64,12 @@ public class Main {
                     System.out.println("Wrong input, mate");
             }
         }
+    }
+
+    private static void printTable(TableName tableName) {
+        System.out.println(tableName.toString() + ": ");
+        for(String str : sqlHandler.listTable(tableName))
+            System.out.println(str);
     }
 
     private static void removePerson() {
