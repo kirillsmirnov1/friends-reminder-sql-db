@@ -59,7 +59,8 @@ public class Main {
 
             System.out.println("\nEnter" +
                 "\n 0 to go back" +
-                "\n 1 : add; 2 : rename; 3 : remove Person"); // TODO 2, 3
+                "\nPersons" +
+                "\n 1 : add; 2 : rename; 3 : remove");
 
             switch (inScan.nextLine()){
                 case "0" :
