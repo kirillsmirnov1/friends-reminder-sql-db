@@ -25,6 +25,11 @@ class SQLHandler {
         createTable(createPersons);
     }
 
+    boolean addPerson(String name){
+        String addStatement = "INSERT INTO " + PERSONS.toString() + "(name) VALUES('" + name + "')";
+        return executeUpdate(addStatement);
+    }
+
     boolean changeFieldValue(TableName tableName, int id, String fieldName, String newValue){
 
         String sql =

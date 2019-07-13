@@ -124,7 +124,7 @@ public class Main {
     private static boolean renamePerson(int personId, String newName) {
         return sqlHandler.changeFieldValue(PERSONS, personId, "name", newName);
     }
-    
+
     private static boolean personExists(String name) {
         return sqlHandler.getIdByField(PERSONS, "name", name) >= 0;
     }
@@ -135,18 +135,14 @@ public class Main {
     }
 
     private static void addPerson(String name) {
-        String addStatement = "INSERT INTO persons(name) VALUES('" + name + "')";
-
         if(personExists(name)){
             System.out.println("Person «" + name + "» already exists");
         } else {
-            try (Connection conn = DriverManager.getConnection(sqlHandler.getDatabaseURL());
-                 PreparedStatement add = conn.prepareStatement(addStatement)) {
-                add.executeUpdate();
+            
+            if(sqlHandler.addPerson(name))
                 System.out.println("Person «" + name + "» added");
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+            else
+                System.out.println("Couldn't add «" + name + "»");
         }
     }
 
