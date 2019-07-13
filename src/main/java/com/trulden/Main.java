@@ -69,7 +69,7 @@ public class Main {
                     addPerson();
                     break;
                 case "2" :
-                    changePerson();
+                    changePersonName();
                     break;
                 default:
                     System.out.println("Wrong input, mate");
@@ -77,18 +77,24 @@ public class Main {
         }
     }
 
-    private static void changePerson() {
+    private static void changePersonName() {
         System.out.print("Who do you wish to rename? ");
         String oldName = inScan.nextLine();
         if(personExists(oldName)){
             int personId = getPersonId(oldName);
 
+            System.out.print("How do you want to call «" + oldName + "» from now on? ");
+
+            String newName = inScan.nextLine();
+
+            if(renamePerson(personId, newName))
+                System.out.println("«" + oldName + "» renamed to «" + newName + "»");
+            else
+                System.out.println("Renaming failed miserably");
+
         } else {
             System.out.println("Person «" + oldName + "» doesn't exist");
         }
-        // TODO
-        // ввод нового имени
-        // обновление таблицы
     }
 
     private static boolean renamePerson(int personId, String newName) {
