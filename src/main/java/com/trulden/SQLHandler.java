@@ -3,7 +3,7 @@ package com.trulden;
 import java.sql.*;
 import java.util.ArrayList;
 
-import static com.trulden.TableName.PERSONS;
+import static com.trulden.TableName.*;
 
 class SQLHandler {
 
@@ -16,13 +16,31 @@ class SQLHandler {
     void initDB() {
         connectToDatabase();
 
-        String createPersons =
-                "CREATE TABLE IF NOT EXISTS " + PERSONS.toString() + " (\n" +
-                        " id integer PRIMARY KEY,\n" +
-                        " name text NOT NULL\n" +
-                        ");";
+        createTable("CREATE TABLE IF NOT EXISTS " +
+                PERSONS.toString() + " (\n" +
+                " id integer PRIMARY KEY,\n" +
+                " name text NOT NULL\n" +
+                ");");
 
-        createTable(createPersons);
+        createTable("CREATE TABLE IF NOT EXISTS " +
+                INTERACTION_TYPES.toString() + "(\n" +
+                " id integer PRIMARY KEY,\n" +
+                " typeName text NOT NULL\n" +
+                ");");
+
+        createTable("CREATE TABLE IF NOT EXISTS " +
+                INTERACTIONS.toString() + "(\n" +
+                " id integer PRIMARY KEY,\n" +
+                " typeId integer NOT NULL,\n" +
+                " date text NOT NULL,\n" +
+                " comment text NOT NULL\n" +
+                ");");
+
+        createTable("CREATE TABLE IF NOT EXISTS " +
+                PERSON_INTERACTIONS.toString() + "(\n" +
+                " personId integer NOT NULL, \n" +
+                " interactionID integer NOT NULL\n" +
+                ");");
     }
 
     boolean removeById(TableName tableName, int id){
