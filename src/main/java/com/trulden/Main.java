@@ -71,6 +71,9 @@ public class Main {
                 case "2" :
                     renamePerson();
                     break;
+                case "3" :
+                    removePerson();
+                    break;
                 default:
                     System.out.println("Wrong input, mate");
             }
