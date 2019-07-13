@@ -25,6 +25,28 @@ class SQLHandler {
         createTable(createPersons);
     }
 
+    int getIdByField(TableName tableName, String fieldName, String fieldValue){
+
+        String selectStatement =
+                "SELECT id FROM " + tableName.toString() +
+                " WHERE " + fieldName + " = '" + fieldValue + "'";
+
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement select = conn.prepareStatement(selectStatement)) {
+
+            ResultSet rs = select.executeQuery();
+            rs.next();
+            int id = rs.getInt("id");
+
+            return id;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return -1;
+    }
+
     String[] listTable(TableName tableName){
         ArrayList<String> result = new ArrayList<>();
         String selectStatementStr;
@@ -34,7 +56,7 @@ class SQLHandler {
                 selectStatementStr = "SELECT name FROM " + PERSONS.toString() + ";";
                 break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
         }
 
         try(Connection conn = DriverManager.getConnection(databaseURL);
@@ -47,7 +69,7 @@ class SQLHandler {
                         result.add(" " + rs.getString("name"));
                         break;
                     default:
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
                 }
             }
         } catch (SQLException e){

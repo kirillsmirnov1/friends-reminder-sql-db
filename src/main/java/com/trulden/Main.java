@@ -76,7 +76,7 @@ public class Main {
         System.out.print("Who do you wish to remove? ");
         String name = inScan.nextLine();
         if(personExists(name)) {
-            int personId = getPersonId(name);
+            int personId = sqlHandler.getIdByField(PERSONS, "name", name);
             if(removePerson(personId))
                 System.out.println("«" + name + "» removed");
             else
@@ -105,7 +105,7 @@ public class Main {
         System.out.print("Who do you wish to rename? ");
         String oldName = inScan.nextLine();
         if(personExists(oldName)){
-            int personId = getPersonId(oldName);
+            int personId = sqlHandler.getIdByField(PERSONS, "name", oldName);
 
             System.out.print("How do you want to call «" + oldName + "» from now on? ");
 
@@ -134,26 +134,6 @@ public class Main {
         }
 
         return false;
-    }
-
-    private static int getPersonId(String name) {
-
-        String selectStatement = "SELECT id FROM persons WHERE name = '" + name + "'";
-
-        try (Connection conn = DriverManager.getConnection(sqlHandler.getDatabaseURL());
-             PreparedStatement select = conn.prepareStatement(selectStatement)) {
-
-            ResultSet rs = select.executeQuery();
-            rs.next();
-            int personId = rs.getInt("id");
-
-            return personId;
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return -1;
     }
 
     // TODO проверять через id
