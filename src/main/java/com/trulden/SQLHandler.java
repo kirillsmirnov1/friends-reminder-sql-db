@@ -25,6 +25,26 @@ class SQLHandler {
         createTable(createPersons);
     }
 
+    boolean changeFieldValue(TableName tableName, int id, String fieldName, String newValue){
+
+        String sql =
+                "UPDATE " + tableName.toString() + " " +
+                "SET "+ fieldName +" = '" + newValue + "' " +
+                "WHERE id = " + id + ";";
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement updateStatement = conn.prepareStatement(sql)) {
+
+            updateStatement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
     int getIdByField(TableName tableName, String fieldName, String fieldValue){
 
         String selectStatement =
