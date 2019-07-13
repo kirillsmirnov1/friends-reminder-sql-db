@@ -124,21 +124,9 @@ public class Main {
     private static boolean renamePerson(int personId, String newName) {
         return sqlHandler.changeFieldValue(PERSONS, personId, "name", newName);
     }
-
-    // TODO проверять через id
+    
     private static boolean personExists(String name) {
-        String selectStatement = "SELECT name FROM persons WHERE name = '" + name + "'";
-
-        try (Connection conn = DriverManager.getConnection(sqlHandler.getDatabaseURL());
-             PreparedStatement select = conn.prepareStatement(selectStatement)) {
-
-            return !select.executeQuery().isClosed();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return false;
+        return sqlHandler.getIdByField(PERSONS, "name", name) >= 0;
     }
 
     private static void addPerson(){
