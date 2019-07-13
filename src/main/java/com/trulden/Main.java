@@ -87,18 +87,7 @@ public class Main {
     }
 
     private static boolean removePerson(int personId) {
-        String sql = "DELETE FROM persons WHERE id = " + personId + ";";
-        try (Connection conn = DriverManager.getConnection(sqlHandler.getDatabaseURL());
-             PreparedStatement updateStatement = conn.prepareStatement(sql)) {
-
-            updateStatement.executeUpdate();
-
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return false;
+        return sqlHandler.removeById(PERSONS, personId);
     }
 
     private static void renamePerson() {
@@ -138,7 +127,7 @@ public class Main {
         if(personExists(name)){
             System.out.println("Person «" + name + "» already exists");
         } else {
-            
+
             if(sqlHandler.addPerson(name))
                 System.out.println("Person «" + name + "» added");
             else

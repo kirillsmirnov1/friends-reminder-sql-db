@@ -25,6 +25,21 @@ class SQLHandler {
         createTable(createPersons);
     }
 
+    boolean removeById(TableName tableName, int id){
+        String sql = "DELETE FROM " + tableName.toString() + " WHERE id = " + id + ";";
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement updateStatement = conn.prepareStatement(sql)) {
+
+            updateStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
     boolean addPerson(String name){
         String addStatement = "INSERT INTO " + PERSONS.toString() + "(name) VALUES('" + name + "')";
         return executeUpdate(addStatement);
