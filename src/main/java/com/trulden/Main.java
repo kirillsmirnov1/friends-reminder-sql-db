@@ -77,6 +77,35 @@ public class Main {
         }
     }
 
+    private static void removePerson() {
+        System.out.print("Who do you wish to remove? ");
+        String name = inScan.nextLine();
+        if(personExists(name)) {
+            int personId = getPersonId(name);
+            if(removePerson(personId))
+                System.out.println("«" + name + "» removed");
+            else
+                System.out.println("Removing failed miserably");
+        } else {
+            System.out.println("Person «" + name + "» doesn't exist");
+        }
+    }
+
+    private static boolean removePerson(int personId) {
+        String sql = "DELETE FROM persons WHERE id = " + personId + ";";
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement updateStatement = conn.prepareStatement(sql)) {
+
+            updateStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
     private static void changePersonName() {
         System.out.print("Who do you wish to rename? ");
         String oldName = inScan.nextLine();
