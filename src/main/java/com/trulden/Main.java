@@ -91,6 +91,21 @@ public class Main {
         // обновление таблицы
     }
 
+    private static boolean renamePerson(int personId, String newName) {
+        String sql = "UPDATE persons SET name = '" + newName + "' WHERE id = " + personId + ";";
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement updateStatement = conn.prepareStatement(sql)) {
+
+            updateStatement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
     private static int getPersonId(String name) {
 
         String selectStatement = "SELECT id FROM persons WHERE name = '" + name + "'";
