@@ -31,6 +31,11 @@ class SQLHandler {
                 "UPDATE " + tableName.toString() + " " +
                 "SET "+ fieldName +" = '" + newValue + "' " +
                 "WHERE id = " + id + ";";
+
+        return executeUpdate(sql);
+    }
+
+    private boolean executeUpdate(String sql){
         try (Connection conn = DriverManager.getConnection(databaseURL);
              PreparedStatement updateStatement = conn.prepareStatement(sql)) {
 
