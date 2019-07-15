@@ -96,8 +96,18 @@ class SQLHandler {
                 "SELECT id FROM " + tableName.toString() +
                 " WHERE " + fieldName + " = '" + fieldValue + "'";
 
+        return getIdByStatement(selectStatement);
+    }
+
+    int getMaxIdOfTable(TableName tableName){
+        String sql = "SELECT MAX(id) FROM " + tableName.toString() + ";";
+
+        return getIdByStatement(sql);
+    }
+
+    int getIdByStatement(String statement){
         try (Connection conn = DriverManager.getConnection(databaseURL);
-             PreparedStatement select = conn.prepareStatement(selectStatement)) {
+             PreparedStatement select = conn.prepareStatement(statement)) {
 
             ResultSet rs = select.executeQuery();
 
@@ -105,7 +115,8 @@ class SQLHandler {
                 return -1;
 
             rs.next();
-            int id = rs.getInt("id");
+            //FIXME если полей больше одного, брать по названию "id"
+            int id = rs.getInt(1);
 
             return id;
 
