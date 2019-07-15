@@ -2,6 +2,7 @@ package com.trulden;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.trulden.TableName.*;
 
@@ -192,5 +193,15 @@ class SQLHandler {
     public boolean addInteractionType(String type) {
         String addStatement = "INSERT INTO " + INTERACTION_TYPES.toString() + "(typeName) VALUES('" + type + "')";
         return executeUpdate(addStatement);
+    }
+
+    public int addInteraction(Date date, int typeId, String comment) {
+        String addStatement =
+                "INSERT INTO " + INTERACTIONS.toString() +
+                "(typeId, date, comment) VALUES(" +
+                typeId + ", '" + Util.dateFormat.format(date) + "', '" + comment + "');";
+        executeUpdate(addStatement);
+
+        return getMaxIdOfTable(INTERACTIONS);
     }
 }
