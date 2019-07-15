@@ -22,6 +22,7 @@ class SQLHandler {
                 " name text NOT NULL\n" +
                 ");");
 
+        // FIXME встречи и переписки добавлять по умолчанию? При первом старте?
         createTable("CREATE TABLE IF NOT EXISTS " +
                 INTERACTION_TYPES.toString() + "(\n" +
                 " id integer PRIMARY KEY,\n" +
@@ -36,6 +37,7 @@ class SQLHandler {
                 " comment text NOT NULL\n" +
                 ");");
 
+        // FIXME не нравится название. Мб связи?
         createTable("CREATE TABLE IF NOT EXISTS " +
                 PERSON_INTERACTIONS.toString() + "(\n" +
                 " personId integer NOT NULL, \n" +
