@@ -1,5 +1,7 @@
 package com.trulden;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import static com.trulden.TableName.PERSONS;
@@ -19,7 +21,10 @@ public class Main {
 
     private static void mainCycle() {
         while(true){
-            System.out.println("\nEnter \n 0 to exit\n Persons: 1 : list; 2 : add;");
+            System.out.println("\nEnter " +
+                    "\n 0 to exit" +
+                    "\n Persons:      1 : list; 2 : add;" +
+                    "\n Interactions: 3 : list; 4 : add;");
             switch(inScan.nextLine()){
                 case "0" :
                     System.exit(0);
@@ -30,10 +35,33 @@ public class Main {
                 case "2" :
                     addPerson();
                     break;
+                case "3":
+                    interactionsCycle();
+                    break;
+                case "4":
+                    addInteraction();
+                    break;
                 default:
                     System.out.println("Wrong input, mate");
             }
         }
+    }
+
+    private static void addInteraction() {
+        HashSet<String> names = new HashSet<>();
+        String type;
+        Date date = new Date();
+        String comment;
+
+        //TODO Считывание как в XML версии
+        //TODO Добавление / Проверка типов взаимодействий
+        //TODO Добавление / Проверка друзей
+        //TODO Добавление взаимодействий
+        //TODO Добавление связей взаимодействий
+    }
+
+    private static void interactionsCycle() {
+        // TODO
     }
 
     private static void personsCycle() {
