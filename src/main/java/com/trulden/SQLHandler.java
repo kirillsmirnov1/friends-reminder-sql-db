@@ -100,6 +100,10 @@ class SQLHandler {
              PreparedStatement select = conn.prepareStatement(selectStatement)) {
 
             ResultSet rs = select.executeQuery();
+
+            if(rs.isClosed())
+                return -1;
+
             rs.next();
             int id = rs.getInt("id");
 
