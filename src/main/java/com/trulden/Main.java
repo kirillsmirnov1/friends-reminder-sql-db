@@ -80,7 +80,9 @@ public class Main {
 
         comment = inScan.nextLine();
 
-        //TODO Добавление взаимодействий
+        //Добавление взаимодействий
+        int interactionId = sqlHandler.addInteraction(date, getInteractionTypeId(type), comment);
+
         //TODO Добавление связей взаимодействий
 
         System.out.println("That's all, folks\nHaven't finished yet");
