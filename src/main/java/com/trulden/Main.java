@@ -1,5 +1,6 @@
 package com.trulden;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -69,11 +70,36 @@ public class Main {
 
         type = readType();
 
-        //TODO Считывание как в XML версии
+        // Date
+
+        date = readDate();
+
+        // Interaction comment
+
+        System.out.println("Tell me about your interaction\n");
+
+        comment = inScan.nextLine();
+
         //TODO Добавление взаимодействий
         //TODO Добавление связей взаимодействий
 
         System.out.println("That's all, folks\nHaven't finished yet");
+    }
+
+    private static Date readDate() {
+        System.out.print("Enter date of interaction in «" + Util.dateFormat.toPattern() + "» format: ");
+
+        try {
+            String inputDateLine = inScan.nextLine();
+
+            if(inputDateLine.length() != 10)
+                throw new ParseException("Wrong length", 0);
+
+            return Util.dateFormat.parse(inputDateLine);
+        } catch (ParseException e){
+            System.out.println("There was some mistake. Try again");
+            return readDate();
+        }
     }
 
     private static String readType() {
