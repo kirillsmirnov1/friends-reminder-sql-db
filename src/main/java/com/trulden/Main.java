@@ -1,6 +1,5 @@
 package com.trulden;
 
-import java.sql.*;
 import java.util.Scanner;
 
 import static com.trulden.TableName.PERSONS;
