@@ -85,7 +85,9 @@ public class Main {
 
         //TODO Добавление связей взаимодействий
 
-        System.out.println("That's all, folks\nHaven't finished yet");
+        for(String name : names){
+            sqlHandler.addPersonInteraction(interactionId, name);
+        }
     }
 
     private static Date readDate() {
