@@ -32,7 +32,7 @@ public class Main {
                     System.exit(0);
                     break;
                 case "1" :
-                    personsCycle();
+                    personsCycle(); // TODO из этих циклов нужно сделать выход
                     break;
                 case "2" :
                     addPerson();
