@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import static com.trulden.TableName.INTERACTION_TYPES;
 import static com.trulden.TableName.PERSONS;
 
 public class Main {
@@ -64,10 +65,54 @@ public class Main {
             checkAndAddName(name, names);
         }
 
+        //Добавление / Проверка типов взаимодействий
+
+        type = readType();
+
         //TODO Считывание как в XML версии
-        //TODO Добавление / Проверка типов взаимодействий
         //TODO Добавление взаимодействий
         //TODO Добавление связей взаимодействий
+
+        System.out.println("That's all, folks\nHaven't finished yet");
+    }
+
+    private static String readType() {
+        System.out.println("Enter type of meeting. \nYou can choose one of the following or enter a new one\n");
+        listTypesOfInteractions();
+        String type = inScan.nextLine();
+        if(interactionTypeExists(type)){
+            return type;
+        } else {
+            System.out.println("Type «" + type + "» doesn't exist\nEnter 1 to create or 2 to write something else");
+            switch(Integer.parseInt(inScan.nextLine())){
+                case 1:
+                    addInteractionType(type);
+                    return type;
+                case 2:
+                default:
+                    return readType();
+            }
+        }
+    }
+
+    private static void addInteractionType(String type) {
+        if(interactionTypeExists(type)){
+            System.out.println("Interaction type «" + type + "» already exists");
+        } else {
+            if(sqlHandler.addInteractionType(type))
+                System.out.println("Interaction type «" + type + "» added");
+            else
+                System.out.println("Couldn't add «" + type + "»");
+        }
+
+    }
+
+    private static boolean interactionTypeExists(String type) {
+        return sqlHandler.getIdByField(INTERACTION_TYPES, "typeName", type) >= 0;
+    }
+
+    private static void listTypesOfInteractions() {
+        printTable(INTERACTION_TYPES);
     }
 
     private static void checkAndAddName(String name, HashSet<String> names) {
@@ -194,7 +239,6 @@ public class Main {
         if(personExists(name)){
             System.out.println("Person «" + name + "» already exists");
         } else {
-
             if(sqlHandler.addPerson(name))
                 System.out.println("Person «" + name + "» added");
             else
