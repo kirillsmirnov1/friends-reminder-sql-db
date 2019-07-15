@@ -177,4 +177,9 @@ class SQLHandler {
     String getDatabaseURL() {
         return databaseURL;
     }
+
+    public boolean addInteractionType(String type) {
+        String addStatement = "INSERT INTO " + INTERACTION_TYPES.toString() + "(typeName) VALUES('" + type + "')";
+        return executeUpdate(addStatement);
+    }
 }
