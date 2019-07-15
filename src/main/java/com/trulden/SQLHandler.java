@@ -42,7 +42,7 @@ class SQLHandler {
         createTable("CREATE TABLE IF NOT EXISTS " +
                 PERSON_INTERACTIONS.toString() + "(\n" +
                 " personId integer NOT NULL, \n" +
-                " interactionID integer NOT NULL\n" +
+                " interactionId integer NOT NULL\n" +
                 ");");
     }
 
