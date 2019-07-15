@@ -53,13 +53,47 @@ public class Main {
         Date date = new Date();
         String comment;
 
+        //Добавление / Проверка друзей
         listPersons();
+
+        System.out.println("\nTo whom you wish to add interaction?\nEnter names divided by comma");
+
+        String[] enteredNames = inScan.nextLine().split(", ");
+
+        for(String name : enteredNames) {
+            checkAndAddName(name, names);
+        }
 
         //TODO Считывание как в XML версии
         //TODO Добавление / Проверка типов взаимодействий
-        //TODO Добавление / Проверка друзей
         //TODO Добавление взаимодействий
         //TODO Добавление связей взаимодействий
+    }
+
+    private static void checkAndAddName(String name, HashSet<String> names) {
+        if (personExists(name)) {
+            names.add(name);
+        } else {
+            System.out.println("You don't have friend named «" + name + "»" +
+                    "\nEnter 1 to create new friend, 2 to change entered name, 3 to forget about this misunderstanding");
+            switch(Integer.parseInt(inScan.nextLine())){
+                case 1:
+                    addPerson(name);
+                    names.add(name);
+                    System.out.println("«" + name + "» created");
+                    break;
+                case 2:
+                    System.out.print("Enter name instead of «" + name + "»: " );
+                    checkAndAddName(inScan.nextLine(), names);
+                    break;
+                case 3:
+                    System.out.println("«" + name + "» is forgotten");
+                    break;
+                default:
+                    System.out.println("Wrong input, mate");
+                    checkAndAddName(name, names);
+            }
+        }
     }
 
     private static void listPersons() {
