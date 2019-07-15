@@ -124,6 +124,9 @@ class SQLHandler {
             case PERSONS:
                 selectStatementStr = "SELECT name FROM " + PERSONS.toString() + ";";
                 break;
+            case INTERACTION_TYPES:
+                selectStatementStr = "SELECT typeName FROM " + INTERACTION_TYPES.toString() + ";";
+                break;
             default:
                 throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
         }
@@ -136,6 +139,9 @@ class SQLHandler {
                 switch (tableName){
                     case PERSONS:
                         result.add(" " + rs.getString("name"));
+                        break;
+                    case INTERACTION_TYPES:
+                        result.add(" " + rs.getString("typeName"));
                         break;
                     default:
                         throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
