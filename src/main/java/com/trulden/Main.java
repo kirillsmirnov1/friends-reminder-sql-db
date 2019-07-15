@@ -134,7 +134,11 @@ public class Main {
     }
 
     private static boolean interactionTypeExists(String type) {
-        return sqlHandler.getIdByField(INTERACTION_TYPES, "typeName", type) >= 0;
+        return getInteractionTypeId(type) >= 0;
+    }
+
+    private static int getInteractionTypeId(String type){
+        return sqlHandler.getIdByField(INTERACTION_TYPES, "typeName", type);
     }
 
     private static void listTypesOfInteractions() {
