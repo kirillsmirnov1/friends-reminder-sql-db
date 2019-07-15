@@ -53,11 +53,17 @@ public class Main {
         Date date = new Date();
         String comment;
 
+        listPersons();
+
         //TODO Считывание как в XML версии
         //TODO Добавление / Проверка типов взаимодействий
         //TODO Добавление / Проверка друзей
         //TODO Добавление взаимодействий
         //TODO Добавление связей взаимодействий
+    }
+
+    private static void listPersons() {
+        printTable(PERSONS);
     }
 
     private static void interactionsCycle() {
@@ -67,7 +73,7 @@ public class Main {
     private static void personsCycle() {
         boolean stayInPersonsCycle = true;
         while(stayInPersonsCycle){
-            printTable(PERSONS);
+            listPersons();
 
             System.out.println("\nEnter" +
                 "\n 0 to go back" +
