@@ -204,4 +204,12 @@ class SQLHandler {
 
         return getMaxIdOfTable(INTERACTIONS);
     }
+
+    public void addPersonInteraction(int interactionId, String name) {
+        String addStatement =
+                "INSERT INTO " + PERSON_INTERACTIONS.toString() +
+                "(personId, interactionId) VALUES(" +
+                getIdByField(PERSONS, "name", name) + ", " + interactionId + ");";
+        executeUpdate(addStatement);
+    }
 }
