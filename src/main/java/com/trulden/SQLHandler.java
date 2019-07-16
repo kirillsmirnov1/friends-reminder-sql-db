@@ -206,13 +206,15 @@ class SQLHandler {
                         sql = "SELECT * FROM " + PERSON_INTERACTIONS.toString() +
                               " WHERE interactionId = " + interaction.getId() + ";";
 
-                        try(ResultSet rs2 = statement.executeQuery(sql)){
+                        try(Connection conn2 = DriverManager.getConnection(databaseURL);
+                            Statement statement2 = conn2.createStatement();
+                            ResultSet rs2 = statement2.executeQuery(sql)){
                             while(rs2.next()){
-                                interaction.getPersonNames().add(
-                                        getFieldById(
-                                                PERSONS,
-                                                rs2.getInt("personId"),
-                                                "name"));
+                                interaction.getPersonNames()
+                                        .add(getFieldById(
+                                            PERSONS,
+                                            rs2.getInt("personId"),
+                                            "name"));
                             }
                         }
 
