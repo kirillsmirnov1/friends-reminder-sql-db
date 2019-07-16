@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import static com.trulden.TableName.INTERACTION_TYPES;
-import static com.trulden.TableName.PERSONS;
+import static com.trulden.TableName.*;
 
 public class Main {
 
@@ -181,6 +180,35 @@ public class Main {
 
     private static void interactionsCycle() {
         // TODO
+        boolean stayInInteractionsCycle = true;
+        while(stayInInteractionsCycle){
+            listInteractions();
+
+            System.out.println("\nEnter" +
+                "\n 0 to go back" +
+                "\n" + INTERACTIONS.toString() +
+                "\n 1 : add; 2: change; 3 : remove");
+
+            switch(inScan.nextLine()){
+                case "0" :
+                    stayInInteractionsCycle = false;
+                    break;
+                case "1" :
+                    addInteraction();
+                    break;
+                case "2":
+                case "3":
+                    System.out.println("TODO"); // TODO
+                    break;
+                default:
+                    System.out.println("Wrong input, mate");
+            }
+
+        }
+    }
+
+    private static void listInteractions() {
+        printTable(INTERACTIONS);
     }
 
     private static void personsCycle() {
