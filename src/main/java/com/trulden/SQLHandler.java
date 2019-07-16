@@ -188,7 +188,7 @@ class SQLHandler {
                 } catch (SQLException e){ System.out.println(e.getMessage()); }
                 break;
             //////////////////////////////////////////////////////////////////////////////
-            case INTERACTIONS: // TODO Interactions
+            case INTERACTIONS: 
                 // Interactions have info scattered over four tables,
                 // so there will be four statements for each Interaction
                 sql = "SELECT * FROM " + INTERACTIONS.toString() + ";";
