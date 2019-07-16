@@ -10,6 +10,10 @@ public class Interaction {
     private HashSet<String> personNames;
     private String comment;
 
+    Interaction(){
+        personNames = new HashSet<>();
+    }
+
     public int getId() {
         return id;
     }
