@@ -55,6 +55,13 @@ class SQLHandler {
 
             updateStatement.executeUpdate();
 
+            if(tableName == INTERACTIONS){
+                PreparedStatement removeLinks = conn.prepareStatement(
+                        "DELETE FROM " + PERSON_INTERACTIONS.toString() +
+                        " WHERE interactionId = " + id + ";");
+                removeLinks.executeUpdate();
+            }
+
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -188,7 +195,7 @@ class SQLHandler {
                 } catch (SQLException e){ System.out.println(e.getMessage()); }
                 break;
             //////////////////////////////////////////////////////////////////////////////
-            case INTERACTIONS: 
+            case INTERACTIONS:
                 // Interactions have info scattered over four tables,
                 // so there will be four statements for each Interaction
                 sql = "SELECT * FROM " + INTERACTIONS.toString() + ";";

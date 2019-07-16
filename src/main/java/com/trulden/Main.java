@@ -81,7 +81,7 @@ public class Main {
 
         //Добавление взаимодействий
         int interactionId = sqlHandler.addInteraction(date, getInteractionTypeId(type), comment);
-        
+
         for(String name : names){
             sqlHandler.addPersonInteraction(interactionId, name);
         }
@@ -191,7 +191,6 @@ public class Main {
     }
 
     private static void interactionsCycle() {
-        // TODO
         boolean stayInInteractionsCycle = true;
         while(stayInInteractionsCycle){
             listInteractions();
@@ -208,15 +207,35 @@ public class Main {
                 case "1" :
                     addInteraction();
                     break;
-                case "2":
+                case "2": // TODO
+                    System.out.println("TODO");
+                    break;
                 case "3":
-                    System.out.println("TODO"); // TODO
+                    removeInteraction();
                     break;
                 default:
                     System.out.println("Wrong input, mate");
             }
 
         }
+    }
+
+    private static void removeInteraction() {
+        System.out.print("Enter id of interaction to be removed: ");
+        int id = Integer.parseInt(inScan.nextLine());
+        if(interactionExists(id)){
+            removeInteraction(id);
+        } else {
+            System.out.println("Interaction [" + id + "] doesn't exist");
+        }
+    }
+
+    private static void removeInteraction(int id) {
+        sqlHandler.removeById(INTERACTIONS, id);
+    }
+
+    private static boolean interactionExists(int id) {
+        return sqlHandler.getFieldById(INTERACTIONS, id, "date") != null;
     }
 
     private static void listInteractions() {
