@@ -1,6 +1,7 @@
 package com.trulden;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -100,6 +101,37 @@ class SQLHandler {
         return getIdByStatement(selectStatement);
     }
 
+    String getFieldById(TableName tableName, int id, String fieldName){
+
+        String selectStatement =
+                "SELECT " + fieldName + " FROM " + tableName.toString() +
+                        " WHERE id = " + id + ";";
+
+        return getFieldByStatement(selectStatement);
+    }
+
+    private String getFieldByStatement(String selectStatement) {
+        try (Connection conn = DriverManager.getConnection(databaseURL);
+             PreparedStatement select = conn.prepareStatement(selectStatement)) {
+
+            ResultSet rs = select.executeQuery();
+
+            if(rs.isClosed())
+                return null;
+
+            rs.next();
+            //FIXME если полей больше одного, брать по названию "id"
+            String field = rs.getString(1);
+
+            return field;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
     int getMaxIdOfTable(TableName tableName){
         String sql = "SELECT MAX(id) FROM " + tableName.toString() + ";";
 
@@ -128,7 +160,7 @@ class SQLHandler {
         return -1;
     }
 
-    String[] listTable(TableName tableName){ // TODO Interactions
+    String[] listTable(TableName tableName){
         ArrayList<String> result = new ArrayList<>();
         String sql;
 
@@ -153,6 +185,45 @@ class SQLHandler {
                         result.add(" " + rs.getString("typeName"));
                     }
                 } catch (SQLException e){ System.out.println(e.getMessage()); }
+                break;
+            //////////////////////////////////////////////////////////////////////////////
+            case INTERACTIONS: // TODO Interactions
+                // Interactions have info scattered over four tables,
+                // so there will be four statements for each Interaction
+                sql = "SELECT * FROM " + INTERACTIONS.toString() + ";";
+                try(Connection conn = DriverManager.getConnection(databaseURL);
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery(sql)){
+                    while(rs.next()){
+                        Interaction interaction = new Interaction();
+                        interaction.setId(rs.getInt("id"));
+                        interaction.setType(getFieldById(INTERACTION_TYPES,
+                                                        rs.getInt("typeId"),
+                                                        "typeName"));
+                        interaction.setDate(Util.dateFormat.parse(rs.getString("date")));
+                        interaction.setComment(rs.getString("comment"));
+
+                        sql = "SELECT * FROM " + PERSON_INTERACTIONS.toString() +
+                              " WHERE interactionId = " + interaction.getId() + ";";
+
+                        try(ResultSet rs2 = statement.executeQuery(sql)){
+                            while(rs2.next()){
+                                interaction.getPersonNames().add(
+                                        getFieldById(
+                                                PERSONS,
+                                                rs2.getInt("personId"),
+                                                "name"));
+                            }
+                        }
+
+                        result.add(Util.dateFormat.format(
+                                        interaction.getDate()) +
+                                        " • [" + interaction.getId() + "]" +
+                                        " • " + interaction.getType() +
+                                        " with " + interaction.getPersonNames() +
+                                        " • " + interaction.getComment());
+                    }
+                } catch (SQLException | ParseException e){ System.out.println(e.getMessage()); }
                 break;
             //////////////////////////////////////////////////////////////////////////////
             default:
