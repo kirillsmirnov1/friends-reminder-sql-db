@@ -81,9 +81,7 @@ public class Main {
 
         //Добавление взаимодействий
         int interactionId = sqlHandler.addInteraction(date, getInteractionTypeId(type), comment);
-
-        //TODO Добавление связей взаимодействий
-
+        
         for(String name : names){
             sqlHandler.addPersonInteraction(interactionId, name);
         }
