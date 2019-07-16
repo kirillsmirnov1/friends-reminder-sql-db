@@ -128,39 +128,35 @@ class SQLHandler {
         return -1;
     }
 
-    String[] listTable(TableName tableName){
+    String[] listTable(TableName tableName){ // TODO Interactions
         ArrayList<String> result = new ArrayList<>();
-        String selectStatementStr;
+        String sql;
 
         switch (tableName){
             case PERSONS:
-                selectStatementStr = "SELECT name FROM " + PERSONS.toString() + ";";
+                sql = "SELECT name FROM " + PERSONS.toString() + ";";
+                try(Connection conn = DriverManager.getConnection(databaseURL);
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery(sql)){
+                    while(rs.next()){
+                        result.add(" " + rs.getString("name"));
+                    }
+                } catch (SQLException e){ System.out.println(e.getMessage()); }
                 break;
+            //////////////////////////////////////////////////////////////////////////////
             case INTERACTION_TYPES:
-                selectStatementStr = "SELECT typeName FROM " + INTERACTION_TYPES.toString() + ";";
+                sql = "SELECT typeName FROM " + INTERACTION_TYPES.toString() + ";";
+                try(Connection conn = DriverManager.getConnection(databaseURL);
+                    Statement statement = conn.createStatement();
+                    ResultSet rs = statement.executeQuery(sql)){
+                    while(rs.next()){
+                        result.add(" " + rs.getString("typeName"));
+                    }
+                } catch (SQLException e){ System.out.println(e.getMessage()); }
                 break;
+            //////////////////////////////////////////////////////////////////////////////
             default:
                 throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
-        }
-
-        try(Connection conn = DriverManager.getConnection(databaseURL);
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(selectStatementStr)){
-
-            while(rs.next()){
-                switch (tableName){
-                    case PERSONS:
-                        result.add(" " + rs.getString("name"));
-                        break;
-                    case INTERACTION_TYPES:
-                        result.add(" " + rs.getString("typeName"));
-                        break;
-                    default:
-                        throw new IllegalArgumentException(tableName.toString() + " is not supported yet");
-                }
-            }
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
         }
 
         return result.toArray(new String[0]);
