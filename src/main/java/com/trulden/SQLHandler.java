@@ -28,7 +28,8 @@ class SQLHandler {
         createTable("CREATE TABLE IF NOT EXISTS " +
                 INTERACTION_TYPES.toString() + "(\n" +
                 " id integer PRIMARY KEY,\n" +
-                " typeName text NOT NULL\n" +
+                " typeName text NOT NULL,\n" +
+                " frequency integer NOT NULL\n" +
                 ");");
 
         createTable("CREATE TABLE IF NOT EXISTS " +
@@ -259,8 +260,10 @@ class SQLHandler {
         return databaseURL;
     }
 
-    public boolean addInteractionType(String type) {
-        String addStatement = "INSERT INTO " + INTERACTION_TYPES.toString() + "(typeName) VALUES('" + type + "')";
+    public boolean addInteractionType(String type, int freq) {
+        String addStatement =
+                "INSERT INTO " + INTERACTION_TYPES.toString() +
+                "(typeName, frequency) VALUES('" + type + "', " + freq + ");";
         return executeUpdate(addStatement);
     }
 

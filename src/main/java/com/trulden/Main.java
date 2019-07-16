@@ -115,7 +115,9 @@ public class Main {
             System.out.println("Type «" + type + "» doesn't exist\nEnter 1 to create or 2 to write something else");
             switch(Integer.parseInt(inScan.nextLine())){
                 case 1:
-                    addInteractionType(type);
+                    System.out.println("And how often should «" + type + "» be in days?");
+                    int freq = Integer.parseInt(inScan.nextLine());
+                    addInteractionType(type, freq);// TODO проверять что всё ок
                     return type;
                 case 2:
                 default:
@@ -124,11 +126,11 @@ public class Main {
         }
     }
 
-    private static void addInteractionType(String type) {
+    private static void addInteractionType(String type, int freq) {
         if(interactionTypeExists(type)){
             System.out.println("Interaction type «" + type + "» already exists");
         } else {
-            if(sqlHandler.addInteractionType(type))
+            if(sqlHandler.addInteractionType(type, freq))
                 System.out.println("Interaction type «" + type + "» added");
             else
                 System.out.println("Couldn't add «" + type + "»");
