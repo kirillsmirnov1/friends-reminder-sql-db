@@ -112,30 +112,42 @@ public class Main {
         if(interactionTypeExists(type)){
             return type;
         } else {
-            System.out.println("Type «" + type + "» doesn't exist\nEnter 1 to create or 2 to write something else");
-            switch(Integer.parseInt(inScan.nextLine())){
-                case 1:
-                    System.out.println("And how often should «" + type + "» be in days?");
-                    int freq = Integer.parseInt(inScan.nextLine());
-                    addInteractionType(type, freq);// TODO проверять что всё ок
-                    return type;
-                case 2:
-                default:
-                    return readType();
-            }
+            return addInteractionType(type);
         }
     }
 
-    private static void addInteractionType(String type, int freq) {
+    private static String addInteractionType(String type){
+        System.out.println("Type «" + type + "» doesn't exist\nEnter 1 to create or 2 to write something else");
+        switch(Integer.parseInt(inScan.nextLine())){
+            case 1:
+                System.out.println("And how often should «" + type + "» be in days?");
+                int freq = Integer.parseInt(inScan.nextLine());
+                if(addInteractionType(type, freq))
+                    return type;
+                else {
+                    System.out.println("Something went wrong, try again");
+                    return readType();
+                }
+            case 2:
+            default:
+                return readType();
+        }
+    }
+
+    private static boolean addInteractionType(String type, int freq) {
         if(interactionTypeExists(type)){
             System.out.println("Interaction type «" + type + "» already exists");
+            return true;
         } else {
-            if(sqlHandler.addInteractionType(type, freq))
+            if(sqlHandler.addInteractionType(type, freq)) {
                 System.out.println("Interaction type «" + type + "» added");
-            else
+                return true;
+            }
+            else {
                 System.out.println("Couldn't add «" + type + "»");
+                return false;
+            }
         }
-
     }
 
     private static boolean interactionTypeExists(String type) {
