@@ -198,7 +198,7 @@ class SQLHandler {
             case INTERACTIONS:
                 // Interactions have info scattered over four tables,
                 // so there will be four statements for each Interaction
-                sql = "SELECT * FROM " + INTERACTIONS.toString() + ";";
+                sql = "SELECT * FROM " + INTERACTIONS.toString() + " ORDER BY date DESC;";
                 try(Connection conn = DriverManager.getConnection(databaseURL);
                     Statement statement = conn.createStatement();
                     ResultSet rs = statement.executeQuery(sql)){
