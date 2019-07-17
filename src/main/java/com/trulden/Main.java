@@ -24,28 +24,39 @@ public class Main {
         while(true){
             System.out.println("\nEnter " +
                     "\n 0 to exit" +
-                    "\n Persons:      1 : list; 2 : add;" +
-                    "\n Interactions: 3 : list; 4 : add;");
+                    "\n 1 to show interactions a while ago" +
+                    "\n Persons:      2 : list; 3 : add;" +
+                    "\n Interactions: 4 : list; 5 : add;");
             switch(inScan.nextLine()){
                 case "0" :
                     System.exit(0);
                     break;
-                case "1" :
-                    personsCycle(); // TODO из этих циклов нужно сделать выход
+                case "1":
+                    showInteractionsAWhileAgo();
                     break;
                 case "2" :
+                    personsCycle(); // TODO из этих циклов нужно сделать выход
+                    break;
+                case "3" :
                     addPerson();
                     break;
-                case "3":
+                case "4":
                     interactionsCycle();
                     break;
-                case "4":
+                case "5":
                     addInteraction();
                     break;
                 default:
                     System.out.println("Wrong input, mate");
             }
         }
+    }
+
+    private static void showInteractionsAWhileAgo() { // TODO
+        // Map [ Type [ person [ date ] ]
+        // for every person
+            // check every type
+            // get last meeting of type, if it have been long enough time ago
     }
 
     private static void addInteraction() {
