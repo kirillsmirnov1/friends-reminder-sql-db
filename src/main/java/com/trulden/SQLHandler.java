@@ -291,4 +291,44 @@ class SQLHandler {
                 getIdByField(PERSONS, "name", name) + ", " + interactionId + ");";
         executeUpdate(addStatement);
     }
+
+    public String[] getAWhileAgo() {
+        ArrayList<String> result = new ArrayList<>();
+        String type = "";
+
+        String sql =
+                "SELECT * FROM\n" +
+                "(SELECT typeName, frequency, PERSONS.name, MAX(INTERACTIONS.date) AS date\n" +
+                " FROM \n" +
+                " (((INTERACTIONS INNER JOIN PERSON_INTERACTIONS \n" +
+                "  ON INTERACTIONS.id = PERSON_INTERACTIONS.interactionId) \n" +
+                "  INNER JOIN INTERACTION_TYPES\n" +
+                "  ON INTERACTIONS.typeId = INTERACTION_TYPES.id)\n" +
+                "  INNER JOIN PERSONS\n" +
+                "  ON PERSON_INTERACTIONS.personId = PERSONS.id)\n" +
+                " GROUP BY personId, typeId\n" +
+                " ORDER BY typeId, date DESC)\n" +
+                " WHERE date < date('now', replace('-X days', 'X', frequency));";
+
+        try(Connection conn = DriverManager.getConnection(databaseURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery()){
+
+            while(rs.next()){
+                String type_ = rs.getString("typeName");
+                if(!type.equals(type_)){
+                    type = type_;
+                    result.add("\n" + type);
+                }
+                result.add(
+                        rs.getString("name") + " • " +
+                        Util.daysPassed(Util.dateFormat.parse(rs.getString("date"))) + " days ago.");
+            }
+
+        } catch (SQLException | ParseException e){
+            e.printStackTrace();
+        }
+
+        return result.toArray(new String[0]);
+    }
 }

@@ -52,11 +52,11 @@ public class Main {
         }
     }
 
-    private static void showInteractionsAWhileAgo() { // TODO
-        // Map [ Type [ person [ date ] ]
-        // for every person
-            // check every type
-            // get last meeting of type, if it have been long enough time ago
+    private static void showInteractionsAWhileAgo() {
+        System.out.println("Interactions a while ago");
+        for(String str : sqlHandler.getAWhileAgo()){
+            System.out.println(" " + str);
+        }
     }
 
     private static void addInteraction() {
