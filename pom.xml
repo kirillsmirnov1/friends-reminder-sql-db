@@ -9,7 +9,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>9</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -21,4 +23,32 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+       <plugins>
+           <plugin>
+               <artifactId>maven-assembly-plugin</artifactId>
+               <configuration>
+                   <archive>
+                       <manifest>
+                           <mainClass>com.trulden.Main</mainClass>
+                       </manifest>
+                   </archive>
+                   <descriptorRefs>
+                       <descriptorRef>jar-with-dependencies</descriptorRef>
+                   </descriptorRefs>
+               </configuration>
+           </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <version>3.8.0</version>
+               <configuration>
+                   <source>9</source>
+                   <target>9</target>
+                   <release>9</release>
+               </configuration>
+           </plugin>
+       </plugins>
+    </build>
 </project>
